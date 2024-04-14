@@ -323,8 +323,7 @@
               alt="">Appstore</a>
           <a class="flex_default adapt_980" target="_blank"
             href="https://play.google.com/store/apps/details?id=uz.uzum.app"><img width="24px"
-              src="https://cdn0.iconfinder.com/data/icons/shift-logotypes/32/Google_Play-256.png"
-              alt="">Playmarket</a>
+              src="https://cdn0.iconfinder.com/data/icons/shift-logotypes/32/Google_Play-256.png" alt="">Playmarket</a>
 
         </div>
 
@@ -340,14 +339,14 @@
               alt=""></a>
 
           <a target="_blank" href="https://t.me/uzum_market"><img width="40px"
-              src="https://cdn4.iconfinder.com/data/icons/socialcones/508/Telegram-256.png"
-              alt=""></a>
+              src="https://cdn4.iconfinder.com/data/icons/socialcones/508/Telegram-256.png" alt=""></a>
 
           <a target="_blank" href="https://www.youtube.com/channel/UCY3nNF2MUDKHrELA6LzbnHA"><img width="40px"
               src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/395_Youtube_logo-256.png" alt=""></a>
 
           <a target="_blank" href="https://www.facebook.com/uzummarket"><img width="40px"
-              src="https://cdn2.iconfinder.com/data/icons/social-media-applications/64/social_media_applications_1-facebook-256.png" alt=""></a>
+              src="https://cdn2.iconfinder.com/data/icons/social-media-applications/64/social_media_applications_1-facebook-256.png"
+              alt=""></a>
         </div>
 
       </div>
@@ -376,21 +375,23 @@
     import { post } from '../js/header.js'
     import { remove } from '../js/header.js'
     import { put } from '../js/header.js'
-    const response = await fetch("http://localhost:9090/new_products");
-    let arr_from_users = await response.json();
-    const rub = 138.26
-    let onsale_main = document.querySelectorAll('.onsale_main')
-    get('https://raw.githubusercontent.com/Daler-web-dev/mvideo/main/db.json')
+    get("http://localhost:9090/new_products")
       .then(data => {
-        console.log(arr_from_users)
-        data.goods = [...data.goods, ...arr_from_users]
-        for (let item of data.goods) {
-          if (item.rating == 5) {
-            item.price = parseInt(item.price * rub)
-            reload(onsale_main[1], item)
-          }
-        }
-        given()
+        let arr_from_users = data
+        const rub = 138.26
+        let onsale_main = document.querySelectorAll('.onsale_main')
+        get('https://raw.githubusercontent.com/Daler-web-dev/mvideo/main/db.json')
+          .then(data => {
+            console.log(arr_from_users)
+            data.goods = [...data.goods, ...arr_from_users]
+            for (let item of data.goods) {
+              if (item.rating == 5) {
+                item.price = parseInt(item.price * rub)
+                reload(onsale_main[1], item)
+              }
+            }
+            given()
+          })
       })
   </script>
 

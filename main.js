@@ -4,8 +4,9 @@ import { get } from './js/header.js'
 import { post } from './js/header.js'
 import { remove } from './js/header.js'
 import { put } from './js/header.js'
-const response = await fetch("http://localhost:9090/new_products");
-let arr_from_users = await response.json();
+get("http://localhost:9090/new_products")
+  .then(data =>{
+    let arr_from_users = data
 const rub = 138.26
 let testi_content = document.querySelector('.testi-content')
 get('https://raw.githubusercontent.com/Daler-web-dev/mvideo/main/db.json')
@@ -57,3 +58,4 @@ fetch("https://raw.githubusercontent.com/Daler-web-dev/mvideo/main/db.json")
     }
     given()
   })
+})

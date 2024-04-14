@@ -178,8 +178,10 @@ export const remove = async (url, id) => {
       })
   }
 };
-const response = await fetch("http://localhost:9090/new_products");
-let arr_from_users = await response.json();
+get("http://localhost:9090/new_products")
+  .then(data =>{
+    let arr_from_users = data
+  })
 let log_in = document.querySelector(".log_in")
 let catalog_url = document.querySelector(".catalog_url")
 const rub = 138.26
