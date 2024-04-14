@@ -19,7 +19,7 @@ get('https://raw.githubusercontent.com/Daler-web-dev/mvideo/main/db.json')
           sp = sp
         } else {
           item.price = parseInt(item.price * rub)
-          item.media[0] = `./public/images/id${item.id}.png`
+          item.media[0] = `images/id${item.id}.png`
           testi_content.innerHTML += `
           <div class="slide swiper-slide">
           <a href="/pages/product?id=${item.id}" class="blocks_and_texts">

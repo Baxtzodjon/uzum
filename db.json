@@ -1,17 +1,18 @@
 {
   "users": [
     {
-      "id": "fd9b",
       "name": "tilav",
       "password": "123456789",
       "email": "tilav548@@gmail.com",
       "liked": [],
-      "basket": []
+      "basket": [],
+      "image": "http://res.cloudinary.com/dubgmfkfc/image/upload/v1713127933/headphones_fyaeaa.png",
+      "id": "fd9b"
     }
   ],
   "new_products": [
     {
-      "id": 345252,
+      "id": "345252",
       "title": "Game pad",
       "description": "The most cool gamepad in the world",
       "colors": [
