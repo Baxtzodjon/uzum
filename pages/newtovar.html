@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/icons/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uzum - Добавить Новый Продукт</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/media.css">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        form input {
+            color: white;
+            background-color: #000000;
+        }
+
+        #vihod {
+            border-bottom-left-radius: 25px;
+        }
+
+        #udalit {
+            border-bottom-right-radius: 25px;
+        }
+
+        .backend {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            filter: invert(1);
+            height: 50px;
+            z-index: 100000000000;
+            border: 1px solid #181818;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .user_settings input {
+            background-color: #181818;
+            border: 1px solid #6c6c6c;
+        }
+    </style>
+</head>
+
+<body style="background-color: #000000;">
+
+    <div class="new_page">
+
+        <div class="avatar" style="position: relative; border-radius: 0px;">
+
+            <input type="file" id="myFile" style="outline: none; position:absolute; cursor: pointer;" name="filename"
+                class="fli">
+            <img src="../public/images/uzum logo for new tovars.webp" id="output" class="image_new">
+        </div>
+
+        <div class="user_settings">
+
+            <input type="text" placeholder="Назвите ваш товар" required="" class="inputs_add">
+            <input type="number" placeholder="Укажите цену в рублях" required="" class="inputs_add">
+            <input type="number" placeholder="Укажите скидку в процентах" required="" class="inputs_add">
+            <textarea name="text" style="background-color: #181818; color: white; padding: 10px 20px; resize: none; height: 60px;" placeholder="Опишите ваш товар"></textarea>
+            <h4 style="color: white;">Выберите категорию:</h4>
+            <div class="direct">
+                <button class="kat_ditem active_kat_ditem" id="furniture">Мебель</button>
+                <button class="kat_ditem" id="PC">Электроника</button>
+                <button class="kat_ditem" id="audio">Аудио техника</button>
+                <button class="kat_ditem" id="TV">Телевизоры</button>
+                <button class="kat_ditem" id="kitchen">Кухонные приборы</button>
+            </div>
+
+            <h4 style="color: white;">Выберите цвета:</h4>
+
+            <div class="direct" style="justify-content: space-between; gap: 0px;">
+                <div class="color_d act2_block" style="background:#ff0000;" id="red"></div>
+                <div class="color_d" style="background:#00e21e;" id="green"></div>
+                <div class="color_d" style="background:#ff9900;" id="orange"></div>
+                <div class="color_d" style="background:#1c1c1c;" id="black"></div>
+                <div class="color_d" style="background:#000a93;" id="blue"></div>
+                <div class="color_d" style="background:#919191;" id="gray"></div>
+                <div class="color_d" style="background:#dbdbdb;" id="white"></div>
+            </div>
+
+            <input type="submit" value="Сохранить" class="violet" style="background-color: #7000ff!important;">
+        </div>
+
+    </div>
+    <script type="module">
+        import axios from 'axios'
+        export const get = async (url) => {
+            try {
+                let res = await axios.get(url);
+                return res.data;
+            } catch (error) {
+                console.error('Ошибка при отправке GET-запроса:', error);
+                return null;
+            }
+        };
+        // post
+        export const post = async (url, data) => {
+            try {
+                let res = await axios.post(url, data);
+                return res.data;
+            } catch (error) {
+                console.error('Ошибка при отправке POST-запроса:', error);
+                return null;
+            }
+        };
+        // delete
+        export const remove = async (url, id) => {
+            try {
+                const response = await axios.delete(`${url}/${id}`);
+                console.log(`Успешно удален объект с id ${id}`);
+                return response.data;
+            } catch (error) {
+                console.error('Ошибка при удалении объекта:', error);
+                return null;
+            }
+        };
+        // put
+        export const put = async (url, data) => {
+            try {
+                let res = await axios.put(url, data);
+                return res.data;
+            } catch (error) {
+                console.error('Ошибка при отправке PUT-запроса:', error);
+                return null;
+            }
+        };
+        let arr = []
+        let color_d = document.querySelectorAll('.color_d')
+        let colrs = []
+        for (let item of color_d) {
+            item.onclick = () => {
+                if (item.className == 'color_d act2_block') {
+                    colrs = colrs.filter((color) => color !== item.id);
+                    item.classList.remove('act2_block')
+                } else {
+                    colrs.push(item.id)
+                    item.classList.add('act2_block')
+                }
+                console.log(colrs)
+            }
+        }
+        let kat_ditem = document.querySelectorAll('.kat_ditem')
+        let katig = []
+        for (let item of kat_ditem) {
+            item.onclick = () => {
+                for (let it of kat_ditem) {
+                    it.classList.remove('active_kat_ditem')
+                }
+                katig = []
+                katig.push(item.id)
+                item.classList.add('active_kat_ditem')
+                console.log(katig)
+            }
+        }
+        let output = document.querySelector('#output')
+        let file = document.querySelector('#myFile')
+        function image(inp_file, src_image) {
+            inp_file.addEventListener("change", function () {
+                const FDATA = new FormData();
+                let imgFile = inp_file.files[0]
+                FDATA.append('file', imgFile);
+                FDATA.append('upload_preset', 'xoj8fxfk');
+                fetch('https://api.cloudinary.com/v1_1/dubgmfkfc/image/upload', {
+                    method: 'POST',
+                    body: FDATA
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        src_image.src = data.url
+                        output.style.filter = 'invert(0)'
+                        change_img = true
+                    })
+            })
+        }
+        image(file, output)
+        let violet = document.querySelector('.violet')
+        let inputs_add = document.querySelectorAll('.inputs_add')
+        inputs_add[2].onchange = () => {
+            let num = parseFloat(inputs_add[2].value)
+            if (num >= 100) {
+                inputs_add[2].value = 100
+            } else if (num <= 0) {
+                inputs_add[2].value = 0
+            }
+        }
+        let per=false
+        let textarea = document.querySelector('textarea')
+        let obj = {}
+        violet.onclick = () => {
+            if (output.src != '../public/images/uzum logo for new tovars.webp' && output.src != undefined && colrs.length > 0 && katig.length > 0) {
+                for (let inp of inputs_add) {
+                    if (inp.value != '') {
+                        let id = Math.floor(Math.random() * 1000000);
+                        let src = output.src
+                        src = src.toString()
+                        obj = {
+                            "id": id,
+                            "title": inputs_add[0].value,
+                            "description": textarea.value,
+                            "colors": colrs,
+                            "rating": 5,
+                            "price": parseInt(inputs_add[1].value),
+                            "isBlackFriday": false,
+                            "salePercentage": parseInt(inputs_add[2].value),
+                            "media": [src],
+                            "type": katig[0],
+                        }
+                        per=true
+                    } else {
+                        alert("Заполните все!")
+                    }
+                }
+            } else {
+                alert("Заполните все!")
+            }
+            if (per == true){
+                post('http://localhost:9090/new_products', obj)
+                .then(responseData => {
+                    location.assign('/')
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>

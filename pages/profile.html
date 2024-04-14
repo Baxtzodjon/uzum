@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/icons/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uzum - Личный Кабинет</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/media.css">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        form input {
+            color: white;
+            color: black;
+        }
+
+        .backend {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            filter: invert(1);
+            height: 50px;
+            z-index: 100000000000;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body style="background-color: #7000FFFF;">
+
+    <img src="../public/images/крестик.png" class="backend">
+
+    <div class="user_page_block container">
+
+        <div class="user_page">
+
+            <div class="avatar" style="position: relative;">
+                <input type="file" id="myFile" style="outline: none; position:absolute; cursor: pointer;"
+                    name="filename" class="fli">
+                <img src="https://cdn2.iconfinder.com/data/icons/user-interface-169/32/about-256.png" id="output" alt=""
+                    style="filter: invert(1);">
+            </div>
+
+            <div class="user_settings_blocks">
+
+                <h1 style="color: white;" class="adapt_950">Ваш профиль</h1>
+
+                <form class="user_settings">
+
+                    <input type="text" placeholder="Имя" class="name_in" required="" minlength="4" maxlength="100">
+                    <input type="text" placeholder="Пароль" class="pass_in" required="" minlength="8" maxlength="100">
+                    <input type="email" placeholder="Адресс электронной почты" required="" maxlength="100"
+                        class="email_in">
+                    <input type="submit" value="Сохранить" class="violet">
+
+                </form>
+
+                <div class="btn-double-block">
+
+                    <button class="bad-btn" id="vihod">Выйти</button>
+                    <button class="bad-btn" id="udalit">Удалить аккаунт</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="module">
+        import axios from 'axios'
+        export const get = async (url) => {
+            try {
+                let res = await axios.get(url);
+                return res.data;
+            } catch (error) {
+                console.error('Ошибка при отправке GET-запроса:', error);
+                return null;
+            }
+        };
+        // post
+        export const post = async (url, data) => {
+            try {
+                let res = await axios.post(url, data);
+                return res.data;
+            } catch (error) {
+                console.error('Ошибка при отправке POST-запроса:', error);
+                return null;
+            }
+        };
+        // delete
+        export const remove = async (url, id) => {
+            try {
+                const response = await axios.delete(`${url}/${id}`);
+                console.log(`Успешно удален объект с id ${id}`);
+                return response.data;
+            } catch (error) {
+                console.error('Ошибка при удалении объекта:', error);
+                return null;
+            }
+        };
+        // put
+        export const put = async (url, data) => {
+            try {
+                let res = await axios.put(url, data);
+                return res.data;
+            } catch (error) {
+                console.error('Ошибка при отправке PUT-запроса:', error);
+                return null;
+            }
+        };
+        let output = document.querySelector('#output')
+        let file = document.querySelector('#myFile')
+        function image(inp_file, src_image) {
+            inp_file.addEventListener("change", function () {
+                const FDATA = new FormData();
+                let imgFile = inp_file.files[0]
+                FDATA.append('file', imgFile);
+                FDATA.append('upload_preset', 'xoj8fxfk');
+                fetch('https://api.cloudinary.com/v1_1/dubgmfkfc/image/upload', {
+                    method: 'POST',
+                    body: FDATA
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        src_image.src = data.url
+                        output.style.filter = 'invert(0)'
+                        change_img = true
+                    })
+            })
+        }
+        image(file, output)
+        let home_page = document.querySelector(".backend")
+
+        home_page.onclick = () => {
+            location.assign('/')
+        }
+        let name_in = document.querySelector('.name_in')
+        let pass_in = document.querySelector('.pass_in')
+        let email_in = document.querySelector('.email_in')
+        let my_obj = {}
+        get('http://localhost:9090/users')
+            .then(data => {
+                if (data.length > 0) {
+                    for (let item of data) {
+                        if (item.email == localStorage.getItem('email')) {
+                            name_in.value = item.name
+                            pass_in.value = item.password
+                            email_in.value = item.email
+                            my_obj = item
+                            if(item.image != undefined){
+                                output.src = item.image
+                                output.style.filter = ``
+                            }
+                        }
+                    }
+                }
+            })
+        let leave = document.querySelector('#vihod')
+        leave.onclick = () => {
+            localStorage.setItem('email', null)
+            location.assign('/')
+        }
+        let deleted = document.querySelector('#udalit')
+        deleted.onclick = () => {
+            fetch(`http://localhost:9090/users/${my_obj.id}`, {
+                method: "DELETE",
+            })
+                .then(res => res.json())
+                .then(res => {
+                    localStorage.setItem('email', null)
+                    location.assign('/')
+                })
+        }
+        let violet = document.querySelector('.violet')
+        violet.onclick = (e) => {
+            e.preventDefault()
+            let perm = false
+            get('http://localhost:9090/users')
+                .then(data => {
+                    if (data.length > 0) {
+                        for (let item of data) {
+                            if (item.email == email_in.value) {
+                                if (item.name == name_in.value && item.password == pass_in.value) {
+                                    perm = true
+                                }
+                            }
+                        }
+                        if(output.src != 'https://cdn2.iconfinder.com/data/icons/user-interface-169/32/about-256.png'){
+                            perm = false
+                        }
+                        if (perm == false) {
+                            let new_obj = {
+                                name: name_in.value,
+                                password: pass_in.value,
+                                email: email_in.value,
+                                liked: [],
+                                basket: []
+                            }
+                            if (output.src != 'https://cdn2.iconfinder.com/data/icons/user-interface-169/32/about-256.png') {
+                                new_obj.image = output.src
+                            }
+                            put(`http://localhost:9090/users/${my_obj.id}`, new_obj)
+                                .then(responseData => {
+                                    localStorage.setItem('email', new_obj.email)
+                                    location.assign('/')
+                                })
+                                .catch(error => {
+                                    console.error('Произошла ошибка:', error);
+                                });
+                        } else {
+                            alert('Такой аккаунт уже существует !')
+                        }
+                    }
+                })
+        }
+    </script>
+
+</body>
+
+</html>
