@@ -178,9 +178,10 @@ export const remove = async (url, id) => {
       })
   }
 };
+let arr_from_users = []
 get("http://localhost:9090/new_products")
   .then(data =>{
-    let arr_from_users = data
+    arr_from_users = data
   })
 let log_in = document.querySelector(".log_in")
 let catalog_url = document.querySelector(".catalog_url")

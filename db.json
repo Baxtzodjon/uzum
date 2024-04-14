@@ -1,4 +1,31 @@
 {
-  "users": [],
-  "new_products": []
+  "users": [
+    {
+      "id": "fd9b",
+      "name": "tilav",
+      "password": "123456789",
+      "email": "tilav548@@gmail.com",
+      "liked": [],
+      "basket": []
+    }
+  ],
+  "new_products": [
+    {
+      "id": 345252,
+      "title": "Game pad",
+      "description": "The most cool gamepad in the world",
+      "colors": [
+        "black",
+        "blue"
+      ],
+      "rating": 5,
+      "price": 1000,
+      "isBlackFriday": false,
+      "salePercentage": 100,
+      "media": [
+        "http://res.cloudinary.com/dubgmfkfc/image/upload/v1713127593/electronic_kztdg5.png"
+      ],
+      "type": "PC"
+    }
+  ]
 }
