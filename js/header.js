@@ -263,7 +263,7 @@ home_phone.onclick = () => {
 try {
   let questionandanswer_url = document.querySelector(".questionandanswer_url")
   questionandanswer_url.onclick = () => {
-    location.assign('/pages/quesandanswer/question')
+    location.assign('/pages/question')
   }
   let cart_url = document.querySelector(".cart_url")
 
