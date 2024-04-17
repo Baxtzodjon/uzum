@@ -1,8 +1,11 @@
-let topchat_url = document.querySelector(".h-child")
+// let topchat_url = document.querySelector(".h-child")
+let refBtn = document.querySelector(".refBtn")
 
-topchat_url.onclick = () => {
-    location.assign('/index')
-}
+refBtn.addEventListener("click", initChat)
+
+// topchat_url.onclick = () => {
+//     location.assign('/index')
+// }
 
 let data = {
     // chatinit: {

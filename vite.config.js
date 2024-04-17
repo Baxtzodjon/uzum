@@ -17,7 +17,7 @@ export default defineConfig({
         product: resolve(__dirname, 'pages/product.html'),
         profile: resolve(__dirname, 'pages/profile.html'),
         wishes: resolve(__dirname, 'pages/wishes.html'),
-        question: resolve(__dirname, 'pages/quesandanswer/question.html')
+        question: resolve(__dirname, 'pages/question.html')
       },
     },
   },
